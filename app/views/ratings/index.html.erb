@@ -1,3 +1,13 @@
+<p id="notice"><%= notice %></p>
+
 <h2>List of ratings</h2>
 
-<p>To be completed...</p>
+<tbody>
+  <ul>
+    <% @ratings.each do |rating| %>
+      <li> <%= rating %> </li>
+    <% end %>
+  </ul>
+
+  <p>Number of ratings <%= @ratings.count %></p>
+</tbody>
