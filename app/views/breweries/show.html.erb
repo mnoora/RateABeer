@@ -11,7 +11,6 @@
 </i>
 </br>
 <p> Number of beers <%= @brewery.beers.count %> </p>
-<p> <%= link_to 'list of beers', beers_path %> </p>
 <p>
  <% @brewery.beers.each do |beer| %>
     <%= link_to beer do %>
@@ -19,6 +18,13 @@
     <% end %>
  <% end %>
 </p>
+<% if @brewery.ratings.empty? %>
+ brewery has not yet been rated!
+<% else %>
+ Has <%= @brewery.ratings.count %>  <%= 'rating'.pluralize(@brewery.ratings.count)%>, average <%= @brewery.average_rating %> 
+<% end %>
+
+</br>
 
 <%= link_to 'Edit', edit_brewery_path(@brewery) %> |
 <%= link_to 'Back', breweries_path %>
