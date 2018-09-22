@@ -1,22 +1,30 @@
 class RatingsController < ApplicationController
-    #before_action :set_brewery, only: [:show, :edit, :update, :destroy]
+  # before_action :set_brewery, only: [:show, :edit, :update, :destroy]
 
-    def create
-        Rating.create params.require(:rating).permit(:score, :beer_id)
-        redirect_to ratings_path
-    end
-    def index
-        @ratings = Rating.all
-    end
+  def create
+    @rating = Rating.new params.require(:rating).permit(:score, :beer_id)
 
-    def new
-        @rating = Rating.new
-        @beers = Beer.all
-    end
-
-    def destroy
-        rating = Rating.find(params[:id])
-        rating.delete
-        redirect_to ratings_path
+    if @rating.save
+      current_user.ratings << @rating
+      redirect_to user_path current_user
+    else
+      @beers = Beer.all
+      render :new
     end
   end
+
+  def index
+    @ratings = Rating.all
+  end
+
+  def new
+    @rating = Rating.new
+    @beers = Beer.all
+  end
+
+  def destroy
+    rating = Rating.find params[:id]
+    rating.delete if current_user == rating.user
+    redirect_to user_path(current_user)
+  end
+end
