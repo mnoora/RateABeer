@@ -3,27 +3,21 @@ class Brewery < ApplicationRecord
   has_many :beers, dependent: :destroy
   has_many :ratings, through: :beers
   validate :year_is_integer,
-    :year_is_not_before_1040,
-    :year_is_not_in_future
+           :year_is_not_before_1040,
+           :year_is_not_in_future
   validates :name, presence: true
 
   def year_is_integer
-    if not year.is_a? Integer 
-      errors.add(:year, "must be an integer")
-    end
+    errors.add(:year, "must be an integer") if !year.is_a? Integer
   end
 
   def year_is_not_before_1040
-    if year < 1040
-      errors.add(:year, "must not be before year 1040")
-    end
+    errors.add(:year, "must not be before year 1040") if year < 1040
   end
-  
+
   def year_is_not_in_future
-    if year > Time.now.year
-      errors.add(:year, "year must not be in the future")
-    end
-  end 
+    errors.add(:year, "year must not be in the future") if year > Time.now.year
+  end
 
   def print_report
     puts name
