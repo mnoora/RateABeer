@@ -3,8 +3,10 @@ require 'rails_helper'
 
 describe "Beers page" do
     before :each do
-        sign_in(username:"Pekka",password:"Foobar1")
+      user = User.create username:"Pekka", password:"Foobar1", password_confirmation:"Foobar1"
+      sign_in(username:"Pekka",password:"Foobar1")
     end
+
   it "should create beer with right parameters" do
     FactoryBot.create(:brewery, name: "Koff", year: 2018)
     visit new_beer_path
