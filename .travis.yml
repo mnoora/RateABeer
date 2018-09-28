@@ -1,8 +1,15 @@
 language: ruby
-
 rvm:
 - 2.5.1
-
 script:
-- bundle exec rails db:migrate 
+- bundle exec rails db:migrate
 - bundle exec rspec -fd spec
+deploy:
+  provider: heroku
+  api_key:
+    secure: AJ11qOni11ndOzNMfx1Ran6637Oiw7D+OwNtDVul4Ih+IDEEF+/uDhTHTcAhnTcgwFPlnvgvQPCj9KvrJyGTaSBy1ODdc9KBSIBVN0oYFl2d72OhMwibq0DawPD3qi4bxZQeG2fgdY5f1SSKB+5xiq52zbpXEu8VSelrXTgERWy7nqYwOgI3QEOTqQ8txLaC+MjX68OPZrBAaPAQpK1R2mWs5gl7p7foRLigaXMAgg5/g1T95rCtz06rM2G9MaXrZ+94AmB4SJZkSFX3aO169xwqCOTlvzyWdRW/oNosmT6unJqVM/In4Pz5c93blcHLEUSlhsWzouJQaSYpf4zIfh2s83Kj0YGyH0oFC8Jdu0OUJYnzdwHt6rwu/gkWzctxM8E8wGGSMIy0jVA2fgU4NlmcBGEf3/F5K9qJkTjL1xOBnNco8rxY7myD8i3dUChQUwVAz2YPfmdotKxWBs8bVVXDL8pDx0tcS7yWB5fM7bizoUHymz7SgdVI5fWx6FbAt8z3XkVswf6QHaNjCuoewCAvlhvk6Yph0bdGvdVmVuwt2q3cBm/QxkP3Hbf7wuopPUsrdhLOI9//o3lFhSm+WY5DMFd4m7NT5a5W6hwBvkMMHWm+uDYZWqKZBeRcFzPgpJqdcNIldBAEa249ID0bPi5pPQRZlntFvm53PE2mIXQ=
+  app: stark-sands-43056
+  on:
+    repo: mnoora/RateBeer
+  run:
+    - rails db:migrate
