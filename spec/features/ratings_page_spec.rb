@@ -10,6 +10,7 @@ describe "Rating" do
   let!(:user2) { FactoryBot.create :user, username:"Ismo" }
 
   before :each do
+    user = User.create username:"Pekka", password:"Foobar1", password_confirmation:"Foobar1"
     sign_in(username:"Pekka",password:"Foobar1")
   end
 

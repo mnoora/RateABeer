@@ -25,7 +25,28 @@ class User < ApplicationRecord
   end
 
   def favorite_style
-    #return nil if ratings.empty?
-    #beers.sort_by { |e| counter[e.style] }
+    return nil if ratings.empty?
+
+    highest_average = 0.0
+    favorite = nil
+    compare_average_ratings(favorite, highest_average)
+  end
+
+  def average_ratings(sty)
+    sum_of_ratings = ratings.select{ |x| x.beer.style == sty }.map(&:score).inject(0, &:+)
+    number_of_ratings = ratings.select{ |x| x.beer.style == sty }.count.to_f
+    rating_ave = sum_of_ratings / number_of_ratings
+    rating_ave
+  end
+
+  def compare_average_ratings(favorite, highest_average)
+    ratings.map{ |b| b.beer.style }.uniq.each do |sty|
+      rating_ave = average_ratings(sty)
+      if rating_ave > highest_average
+        highest_average = rating_ave
+        favorite = sty
+      end
+    end
+    favorite
   end
 end
