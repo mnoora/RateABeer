@@ -7,24 +7,17 @@ class Brewery < ApplicationRecord
            :year_is_not_before_1040,
            :year_is_not_in_future
   validates :name, presence: true
- 
 
   def year_is_integer
-    if !year.is_a? Integer
-      errors.add(:year, "must be an integer")
-    end
+    errors.add(:year, "must be an integer") if !year.is_a? Integer
   end
 
   def year_is_not_before_1040
-    if year.present? && year < 1040
-      errors.add(:year, "must not be before year 1040")
-    end
+    errors.add(:year, "must not be before year 1040") if year.present? && year < 1040
   end
 
   def year_is_not_in_future
-    if year.present? && year > Time.now.year
-      errors.add(:year, "must not be in the future")
-    end
+    errors.add(:year, "must not be in the future") if year.present? && year > Time.now.year
   end
 
   def print_report
