@@ -27,9 +27,7 @@ class User < ApplicationRecord
   def favorite_style
     return nil if ratings.empty?
 
-    highest_average = 0.0
-    favorite = nil
-    compare_average_ratings_style(favorite, highest_average)
+    compare_average_ratings_style
   end
 
   def average_ratings_style(sty)
@@ -39,23 +37,14 @@ class User < ApplicationRecord
     rating_ave
   end
 
-  def compare_average_ratings_style(favorite, highest_average)
-    ratings.map{ |b| b.beer.style }.uniq.each do |sty|
-      rating_ave = average_ratings_style(sty)
-      if rating_ave > highest_average
-        highest_average = rating_ave
-        favorite = sty
-      end
-    end
-    favorite
+  def compare_average_ratings_style
+    ratings.map{ |b| b.beer.style }.uniq.max{ |a, b| average_ratings_style(a) <=> average_ratings_style(b) }
   end
 
   def favorite_brewery
     return nil if ratings.empty?
 
-    favorite = nil
-    highest_average = 0.0
-    compare_average_ratings_brewery(favorite, highest_average)
+    compare_average_ratings_brewery.name
   end
 
   def average_ratings_brewery(bre)
@@ -65,14 +54,7 @@ class User < ApplicationRecord
     rating_ave
   end
 
-  def compare_average_ratings_brewery(favorite, highest_average)
-    ratings.map{ |b| b.beer.brewery }.uniq.each do |bre|
-      rating_ave = average_ratings_brewery(bre)
-      if rating_ave > highest_average
-        highest_average = rating_ave
-        favorite = bre
-      end
-    end
-    favorite.name
+  def compare_average_ratings_brewery
+    ratings.map{ |b| b.beer.brewery }.uniq.max{ |a, b| average_ratings_brewery(a) <=> average_ratings_brewery(b) }
   end
 end
