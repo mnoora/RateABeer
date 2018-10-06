@@ -15,7 +15,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   def new
     @membership = Membership.new
-    @beer_clubs = BeerClub.all
+    @beer_clubs = BeerClub.all - current_user.beer_clubs
   end
 
   # GET /memberships/1/edit
@@ -30,6 +30,7 @@ class MembershipsController < ApplicationController
     if @membership.save
       if current_user.memberships.find_by(beer_club_id: params[:membership][:beer_club_id]).nil?
         current_user.memberships << @membership
+        flash[:notice] = "#{current_user.username} welcome to the club!"
         redirect_to beer_club_path @membership.beer_club_id
       end
     else
@@ -55,11 +56,11 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
+    @user = User.find_by id: @membership.user_id
+    @membership = Membership.find_by user_id: @user.id
     @membership.destroy
-    respond_to do |format|
-      format.html { redirect_to memberships_url, notice: 'Membership was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    flash[:notice] = "Membership in #{@membership.beer_club.name} ended"
+    redirect_to user_path(@user)
   end
 
   private

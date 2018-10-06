@@ -7,7 +7,7 @@
   Has not rated anything yet!
 <% else %>
   Has made <%= @user.ratings.count %>  <%= 'rating'.pluralize(@user.ratings.count)%>, average <%= @user.average_rating %> 
-  <p>Favorite beer style: <%= @user.favorite_style %> </p>
+  <p>Favorite beer style: <%= @user.favorite_style.name %> </p>
   <p>Favorite brewery: <%= @user.favorite_brewery %> </p>
 <% end %>
 
