@@ -5,8 +5,10 @@ include Helpers
 describe "User" do
   let!(:brewery) { FactoryBot.create :brewery, name:"Koff" }
   let!(:brewery2) { FactoryBot.create :brewery, name:"Brew Dog" }
-  let!(:beer1) { FactoryBot.create :beer, name:"iso 3", style: "Lager", brewery:brewery }
-  let!(:beer2) { FactoryBot.create :beer, name:"Nanny state",style:"lowalcohol", brewery:brewery2 }
+  let!(:style1) { FactoryBot.create :style, name:"Lager"}
+  let!(:style2) { FactoryBot.create :style, name:"lowalcohol"}
+  let!(:beer1) { FactoryBot.create :beer, name:"iso 3", style: style1, brewery:brewery }
+  let!(:beer2) { FactoryBot.create :beer, name:"Nanny state",style:style2, brewery:brewery2 }
   let!(:user) { FactoryBot.create :user }
 
   describe "Favorite style" do

@@ -87,10 +87,11 @@ RSpec.describe User, type: :model do
     end
 
     it "is the only rated if only one rating" do
-      beer = FactoryBot.create(:beer, style: "Lager")
+      style = Style.create name:"Lager"
+      beer = FactoryBot.create(:beer, style: style)
       rating = FactoryBot.create(:rating, score: 20, beer: beer, user: user)
     
-      expect(user.favorite_style).to eq("Lager")
+      expect(user.favorite_style.name).to eq("Lager")
     end
   end
 
@@ -105,8 +106,9 @@ RSpec.describe User, type: :model do
     end
 
     it "is the only rated if only one rating" do
+      style = Style.create name:"Lager"
       brewery = FactoryBot.create(:brewery, name: "panimo", year:2018)
-      beer = FactoryBot.create(:beer, style: "Lager", brewery_id: 1)
+      beer = FactoryBot.create(:beer, style: style, brewery_id: 1)
       rating = FactoryBot.create(:rating, score: 20, beer: beer, user: user)
     
       expect(user.favorite_brewery).to eq("panimo")

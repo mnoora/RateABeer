@@ -54,8 +54,9 @@ describe "Rating" do
   it "user can delete his/her rating" do
     FactoryBot.create :rating, beer_id:1, score:2, user:user
     visit user_path(user)
+
     expect(user.ratings.count).to eq(1)
-    page.all("a")[10].click
+    page.all("a")[11].click
     expect(user.ratings.count).to eq(0)
   end
 end

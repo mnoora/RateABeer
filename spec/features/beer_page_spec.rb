@@ -9,9 +9,11 @@ describe "Beers page" do
 
   it "should create beer with right parameters" do
     FactoryBot.create(:brewery, name: "Koff", year: 2018)
+    FactoryBot.create(:style, name: "Lager", info: "to be done")
     visit new_beer_path
+
     fill_in('beer[name]', with:'olut')
-    select('Weizen', from:'beer[style]')
+    select('Lager', from:'beer[style_id]')
     select('Koff', from:'beer[brewery_id]')
 
     expect{
@@ -23,9 +25,11 @@ describe "Beers page" do
 
   it "should not create beer invalid name" do
     FactoryBot.create(:brewery, name: "Koff", year: 2018)
+    FactoryBot.create(:style, name: "Weizen", info: "to be done")
+
     visit new_beer_path
     fill_in('beer[name]', with:'')
-    select('Weizen', from:'beer[style]')
+    select('Weizen', from:'beer[style_id]')
     select('Koff', from:'beer[brewery_id]')
 
     click_button('Create Beer')

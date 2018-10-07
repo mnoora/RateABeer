@@ -7,7 +7,8 @@ Rails.application.configure do
   # and recreated between test runs. Don't rely on the data there!
   config.cache_classes = true
   config.cache_store = :memory_store
-
+  ENV['BEERMAPPING_APIKEY']="dc74917fbbd02bc5c126838956d59b8e"
+  ENV['BEERWEATHER_APIKEY']="405e107263504156b97121346180710"
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
   # preloads Rails for running tests, you may have to set it to true.

@@ -22,8 +22,24 @@
         <td><%= place.city %></td> 
         <td><%= place.zip %></td> 
         <td><%= place.country %></td> 
-        <td><%= place.overall %></td>        
+        <td><%= place.overall %></td>  
       </tr>
     <% end %>
   </table>
 <% end %>
+<!-- I did not manage to make the weather api work here
+<% if @weather %>
+  <table>
+    <thead>
+      <% Weather.rendered_fields.each do |field| %>
+        <th><%= field %></th>
+      <% end %>
+    </thead>
+    <% @weather.each do |place| %>
+      <tr>
+        <td><%= place.temp_c %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+-->
