@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_that_admin
-    redirect_to beers_path, notice: 'you should be admin to delete' if current_user.admin == false || current_user.admin == nil
+    redirect_to beers_path, notice: 'you should be admin to delete' if current_user.admin == false || current_user.admin.nil?
   end
 end

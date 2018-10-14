@@ -27,19 +27,19 @@ class User < ApplicationRecord
   def favorite_style
     favorite(:style)
   end
-  
+
   def favorite_brewery
     favorite(:brewery).name
   end
-  
+
   def favorite(groupped_by)
     return nil if ratings.empty?
-  
+
     grouped_ratings = ratings.group_by{ |r| r.beer.send(groupped_by) }
     averages = grouped_ratings.map do |group, ratings|
       { group: group, score: average_of(ratings) }
     end
-  
+
     averages.max_by{ |r| r[:score] }[:group]
   end
 
