@@ -12,5 +12,5 @@
   <% end %>
 
   <%= form.select :beer_club_id, options_from_collection_for_select(@beer_clubs, :id, :name) %>
-  <%= form.submit 'Join a club' %>
+  <%= form.submit 'Join a club', class:'btn btn-outline-success'%>
 <% end %>

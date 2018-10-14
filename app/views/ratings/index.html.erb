@@ -1,14 +1,47 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-8 col-sm-6">
+    <h2>Best breweries</h2>
+    <%= render 'list', objects: @top_breweries %>
+  </div>
+  <div class="col-4 col-sm-6">
+    <h2>Best beers</h2>
+    <%= render 'list', objects: @top_beers %>
+  </div>
+  <div class="col-2 col-sm-6">
+    <h2>Best styles</h2>
+    <%= render 'list', objects: @top_styles %>
+  </div>
+</div>
 
-<h2>List of ratings</h2>
+<h2>Most active users</h2>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Ratings</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @top_users.each do |o| %>
+      <tr>
+        <td><%= link_to o.username, o %></td>
+        <td><%= o.ratings.size %></td>
+        <td></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<h2>Recent Ratings</h2>
 
 <tbody>
   <ul>
-    <% @ratings.each do |rating| %>
+    <% @recent_ratings.each do |rating| %>
       <li> <%= rating %> <%= link_to rating.user.username, rating.user%> </li>
     <% end %>
   </ul>
 
+
   <p>Number of ratings <%= @ratings.count %></p>
-  <p> <%= link_to "Create a new rating", new_rating_path %> </p>
+  <p> <%= link_to("Create a new rating", new_rating_path,class:'btn btn-primary')  %> </p>
 </tbody>

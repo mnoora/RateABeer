@@ -8,6 +8,9 @@ class Brewery < ApplicationRecord
            :year_is_not_in_future
   validates :name, presence: true
 
+  scope :active, -> { where active: true }
+  scope :retired, -> { where active: [nil, false] }
+
   def year_is_integer
     errors.add(:year, "must be an integer") if !year.is_a? Integer
   end
@@ -29,5 +32,10 @@ class Brewery < ApplicationRecord
   def restart
     self.year = 2018
     puts "changed year to #{year}"
+  end
+
+  def self.top(number)
+    sorted_by_rating_in_desc_order = Brewery.all.sort_by{ |b| -(b.average_rating || 0) }
+    sorted_by_rating_in_desc_order.take(number)
   end
 end

@@ -25,36 +25,30 @@ class User < ApplicationRecord
   end
 
   def favorite_style
-    return nil if ratings.empty?
-
-    compare_average_ratings_style
+    favorite(:style)
   end
-
-  def average_ratings_style(sty)
-    sum_of_ratings = ratings.select{ |x| x.beer.style == sty }.map(&:score).inject(0, &:+)
-    number_of_ratings = ratings.select{ |x| x.beer.style == sty }.count.to_f
-    rating_ave = sum_of_ratings / number_of_ratings
-    rating_ave
-  end
-
-  def compare_average_ratings_style
-    ratings.map{ |b| b.beer.style }.uniq.max{ |a, b| average_ratings_style(a) <=> average_ratings_style(b) }
-  end
-
+  
   def favorite_brewery
+    favorite(:brewery).name
+  end
+  
+  def favorite(groupped_by)
     return nil if ratings.empty?
-
-    compare_average_ratings_brewery.name
+  
+    grouped_ratings = ratings.group_by{ |r| r.beer.send(groupped_by) }
+    averages = grouped_ratings.map do |group, ratings|
+      { group: group, score: average_of(ratings) }
+    end
+  
+    averages.max_by{ |r| r[:score] }[:group]
   end
 
-  def average_ratings_brewery(bre)
-    sum_of_ratings = ratings.select{ |x| x.beer.brewery.id == bre.id }.map(&:score).inject(0, &:+)
-    number_of_ratings = ratings.select{ |x| x.beer.brewery.id == bre.id }.count.to_f
-    rating_ave = sum_of_ratings / number_of_ratings
-    rating_ave
+  def average_of(ratings)
+    ratings.sum(&:score).to_f / ratings.count
   end
 
-  def compare_average_ratings_brewery
-    ratings.map{ |b| b.beer.brewery }.uniq.max{ |a, b| average_ratings_brewery(a) <=> average_ratings_brewery(b) }
+  def self.top(number)
+    sorted_by_rating_in_desc_order = User.all.sort_by{ |b| -(b.ratings.size || 0) }
+    sorted_by_rating_in_desc_order.take(number)
   end
 end

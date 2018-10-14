@@ -1,6 +1,6 @@
 <h1><%= @style.name %></h1>
 
-<p> <%= @style.info%> </p>
+<quote> <%= @style.info%> </quote>
 
 <p> <strong>beers </strong></p>
 
@@ -10,3 +10,6 @@
       <li><%= link_to beer.name, beer%> by <%= link_to beer.brewery.name, beer.brewery%> </li>
     <% end %>
   </ul>
+  </tbody>
+  <%= edit_and_destroy_buttons(@style) %>
+  

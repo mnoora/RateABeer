@@ -1,8 +1,18 @@
-<p id="notice"><%= notice %></p>
+
 
 <h1>
   <%= @user.username %>
 </h1>
+<% if not @user.active  %>
+  <span class="badge badge-info">account closed</span>
+<% end %>
+<% if current_user.admin == true && @user.active == true  %>
+    <%= link_to "close account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-danger" %>
+<% end %>
+<% if current_user.admin == true && @user.active == false  %>
+    <%= link_to "open account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-danger" %>
+<% end %>
+<br>
 <% if @user.ratings.empty? %>
   Has not rated anything yet!
 <% else %>
@@ -39,7 +49,6 @@
 </tbody>
 
 <% if current_user == @user %> 
-  <%= link_to 'Edit', edit_user_path(@user) %> | 
-  <%= link_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %> |
+  <%= edit_and_destroy_buttons(@user) %>
   <% end%>
-<%= link_to 'Back', users_path %>
+<%= link_to('Back', users_path,class:'btn btn-primary')  %>

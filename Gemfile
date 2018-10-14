@@ -10,6 +10,8 @@ gem 'rails', '~> 5.2.1'
 group :development, :test do
   gem 'sqlite3'
 end
+gem 'bootstrap', '~> 4.1.3'
+gem 'jquery-rails'
 
 group :production do
    gem 'pg'

@@ -1,13 +1,22 @@
 <h1>Beer places search</h1>
-<p id="notice"><%= notice %></p>
+
 
 <%= form_tag places_path do %>
   city <%= text_field_tag :city, params[:city] %>
-  <%= submit_tag "Search" %>
+  <%= submit_tag "Search", class:'btn btn-success' %>
 <% end %>
 
 <% if @places %>
-  <table>
+<h4>the current beer weather in <%= @places.first.city %></h4>
+
+  <p><%= @weather['temp_c'] %> Celsius</p>
+
+  <img src=<%= @weather['condition']['icon'] %> >
+
+  <p><strong>wind</strong> <%= (@weather['wind_kph'] * 0.277777778).round(1) %> m/sec, direction <%= @weather['wind_dir'] %> </p>
+
+  <h4>places to get your beer</h4>
+  <table >
     <thead>
       <% Place.rendered_fields.each do |field| %>
         <th><%= field %></th>
@@ -27,19 +36,3 @@
     <% end %>
   </table>
 <% end %>
-<!-- I did not manage to make the weather api work here
-<% if @weather %>
-  <table>
-    <thead>
-      <% Weather.rendered_fields.each do |field| %>
-        <th><%= field %></th>
-      <% end %>
-    </thead>
-    <% @weather.each do |place| %>
-      <tr>
-        <td><%= place.temp_c %></td>
-      </tr>
-    <% end %>
-  </table>
-<% end %>
--->

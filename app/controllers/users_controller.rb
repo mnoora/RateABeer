@@ -59,6 +59,15 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
+  def toggle_activity
+    user = User.find(params[:id])
+    user.update_attribute :active, (not user.active)
+  
+    new_status = user.active? ? "active" : "closed"
+  
+    redirect_to user, notice:"user activity status changed to #{new_status}"
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
