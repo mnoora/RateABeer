@@ -19,6 +19,9 @@ group :production do
 end
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
+gem 'rack-mini-profiler'
+gem 'sucker_punch', '~> 2.0'
+gem 'omniauth-github'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

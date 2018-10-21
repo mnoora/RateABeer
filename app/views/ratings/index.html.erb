@@ -1,3 +1,4 @@
+<% cache 'ratings_index', expires_in: 10.minutes do %>
 <div class="row">
   <div class="col-8 col-sm-6">
     <h2>Best breweries</h2>
@@ -43,5 +44,7 @@
 
 
   <p>Number of ratings <%= @ratings.count %></p>
+
+  </tbody>
+  <%end%>
   <p> <%= link_to("Create a new rating", new_rating_path,class:'btn btn-primary')  %> </p>
-</tbody>

@@ -1,5 +1,5 @@
 class BeersController < ApplicationController
-  before_action :ensure_that_signed_in, except: [:index, :show]
+  before_action :ensure_that_signed_in, except: [:index, :show, :list]
   before_action :set_breweries_and_styles_for_template, only: [:new, :edit, :create]
   before_action :set_beer, only: [:show, :edit, :update, :destroy]
   before_action :ensure_that_admin, only: [:destroy]
@@ -7,7 +7,20 @@ class BeersController < ApplicationController
   # GET /beers
   # GET /beers.json
   def index
-    @beers = Beer.all
+    @order = params[:order] || 'name'
+    # jos fragmentti olemassa, lopetetaan metodi tähän (eli renderöidään heti näkymä)
+    return if request.format.html? && fragment_exist?('beerlist-#{@order}')
+
+    @beers = Beer.includes(:brewery, :style).all
+
+    @beers = case @order
+             when 'name' then @beers.sort_by(&:name)
+             when 'brewery' then @beers.sort_by{ |b| b.brewery.name }
+             when 'style' then @beers.sort_by{ |b| b.style.name }
+             end
+  end
+
+  def list
   end
 
   # GET /beers/1
@@ -29,6 +42,7 @@ class BeersController < ApplicationController
   # POST /beers
   # POST /beers.json
   def create
+    ["beerlist-name", "beerlist-brewery", "beerlist-style"].each{ |f| expire_fragment(f) }
     @beer = Beer.new(beer_params)
 
     respond_to do |format|
@@ -45,6 +59,7 @@ class BeersController < ApplicationController
   # PATCH/PUT /beers/1
   # PATCH/PUT /beers/1.json
   def update
+    ["beerlist-name", "beerlist-brewery", "beerlist-style"].each{ |f| expire_fragment(f) }
     respond_to do |format|
       if @beer.update(beer_params)
         format.html { redirect_to @beer, notice: 'Beer was successfully updated.' }
@@ -59,6 +74,7 @@ class BeersController < ApplicationController
   # DELETE /beers/1
   # DELETE /beers/1.json
   def destroy
+    ["beerlist-name", "beerlist-brewery", "beerlist-style"].each{ |f| expire_fragment(f) }
     @beer.destroy
     respond_to do |format|
       format.html { redirect_to beers_url, notice: 'Beer was successfully destroyed.' }

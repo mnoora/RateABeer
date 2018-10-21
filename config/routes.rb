@@ -24,6 +24,11 @@ Rails.application.routes.draw do
   resources :users do
     post 'toggle_activity', on: :member
   end
-  
+  get 'beerlist', to:'beers#list'
+  get 'brewerylist', to:'breweries#list'
+  get 'auth/:provider/callback', to: 'sessions#create_oauth'
+  resources :memberships do
+    post 'toggle_confirmed', on: :member
+  end
 end
 

@@ -1,5 +1,6 @@
 class Brewery < ApplicationRecord
   include RatingAverage
+  extend TopObjects
   has_many :beers, dependent: :destroy
   has_many :ratings, through: :beers
   validates :year, presence: true
@@ -34,8 +35,4 @@ class Brewery < ApplicationRecord
     puts "changed year to #{year}"
   end
 
-  def self.top(number)
-    sorted_by_rating_in_desc_order = Brewery.all.sort_by{ |b| -(b.average_rating || 0) }
-    sorted_by_rating_in_desc_order.take(number)
-  end
 end

@@ -6,17 +6,19 @@
 <% if not @user.active  %>
   <span class="badge badge-info">account closed</span>
 <% end %>
+<% if current_user%>
 <% if current_user.admin == true && @user.active == true  %>
     <%= link_to "close account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-danger" %>
 <% end %>
 <% if current_user.admin == true && @user.active == false  %>
     <%= link_to "open account", toggle_activity_user_path(@user.id), method: :post, class: "btn btn-danger" %>
 <% end %>
+<%end%>
 <br>
 <% if @user.ratings.empty? %>
   Has not rated anything yet!
 <% else %>
-  Has made <%= @user.ratings.count %>  <%= 'rating'.pluralize(@user.ratings.count)%>, average <%= @user.average_rating %> 
+  Has made <%= @user.ratings.count %>  <%= 'rating'.pluralize(@user.ratings.count)%>, average <%= @user.round(@user.average_rating) %> 
   <p>Favorite beer style: <%= @user.favorite_style.name %> </p>
   <p>Favorite brewery: <%= @user.favorite_brewery %> </p>
 <% end %>

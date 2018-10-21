@@ -12,14 +12,26 @@
 <h2>Members</h2>
 <ul>
  <% @beer_club.users.each do |member| %>
+  <% if @beer_club.memberships.find_by_user_id(member.id).confirmed == true%>
     <%= link_to member do %>
    <li> <%= member.username %> </li>
     <% end %>
+    <% end%>
  <% end %>
 </ul>
 
+<% if current_user && !@beer_club.user_not_member?(current_user) && @beer_club.memberships.find_by_user_id(current_user.id).confirmed == true %>
+<h2>Outstanding applications <h2>
+<% @unconfirmed.each do |m| %>
+   <p> <%= User.find_by_id(m.user_id).username %>
+    <%= link_to "confirm", toggle_confirmed_membership_path(m.id), method: :post, class: "btn btn-primary" %>
+  </p>
+<%end%>
+
+
+<% end %>
+
 <% if current_user && @beer_club.user_not_member?(current_user) %>
-  <h4>give a rating:</h4>
 
   <%= form_for(@membership) do |f| %>
     <%= f.hidden_field :beer_club_id %>

@@ -1,6 +1,8 @@
 class Beer < ApplicationRecord
   include RatingAverage
-  belongs_to :brewery
+  extend TopObjects
+
+  belongs_to :brewery, touch: true
   has_many :ratings, dependent: :destroy
   has_many :raters, -> { uniq }, through: :ratings, source: :user
   validates :name, presence: true
@@ -10,8 +12,5 @@ class Beer < ApplicationRecord
     "#{name} #{brewery.name}"
   end
 
-  def self.top(number)
-    sorted_by_rating_in_desc_order = Beer.all.sort_by{ |b| -(b.average_rating || 0) }
-    sorted_by_rating_in_desc_order.take(number)
-  end
+
 end

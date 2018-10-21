@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include RatingAverage
+  extend TopObjects
 
   PASSWORD_FORMAT = /\A
   (?=.*\d)           # Must contain a digit
@@ -47,8 +48,13 @@ class User < ApplicationRecord
     ratings.sum(&:score).to_f / ratings.count
   end
 
-  def self.top(number)
-    sorted_by_rating_in_desc_order = User.all.sort_by{ |b| -(b.ratings.size || 0) }
-    sorted_by_rating_in_desc_order.take(number)
+  def self.github_signin(gitnick)
+    githubUser = User.find_by_username(gitnick.nickname)
+    if githubUser
+      return githubUser
+    else
+      password = SecureRandom.base64(25)
+      User.create!(username: gitnick.nickname, password: password, password_confirmation: password)
+    end
   end
 end
