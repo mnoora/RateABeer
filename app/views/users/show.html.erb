@@ -29,9 +29,26 @@
 <tbody>
   <ul>
     <% @user.beer_clubs.each do |club| %>
+    <% if club.memberships.find_by_user_id(@user.id).confirmed == true %>
+
      <li> <%= link_to club do %>
        <%= club.name %>  
       <% end %>  </li>
+    <% end %>
+    <% end %>
+  </ul>
+</tbody>
+
+<p> applied membership of </p>
+<tbody>
+  <ul>
+    <% @user.beer_clubs.each do |club| %>
+    <% if club.memberships.find_by_user_id(@user.id).confirmed == false %>
+
+     <li> <%= link_to club do %>
+       <%= club.name %>  
+      <% end %>  </li>
+    <% end %>
     <% end %>
   </ul>
 </tbody>

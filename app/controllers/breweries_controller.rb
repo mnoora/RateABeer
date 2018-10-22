@@ -16,7 +16,6 @@ class BreweriesController < ApplicationController
   # GET /breweries/1
   # GET /breweries/1.json
   def show
-    
   end
 
   def list

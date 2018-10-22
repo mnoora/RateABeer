@@ -11,5 +11,4 @@ class BeerClub < ApplicationRecord
     end
     is
   end
-
 end

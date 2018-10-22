@@ -49,12 +49,13 @@ class User < ApplicationRecord
   end
 
   def self.github_signin(gitnick)
-    githubUser = User.find_by_username(gitnick.nickname)
-    if githubUser
-      return githubUser
+    nick = gitnick.nickname
+    github_user = User.find_by_username(nick)
+    if github_user
+      github_user
     else
       password = SecureRandom.base64(25)
-      User.create!(username: gitnick.nickname, password: password, password_confirmation: password)
+      User.create!(username: nick, password: password, password_confirmation: password)
     end
   end
 end

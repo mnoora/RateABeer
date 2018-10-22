@@ -20,7 +20,7 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/1
   # GET /beer_clubs/1.json
   def show
-    @unconfirmed = @beer_club.memberships.where( confirmed: false).all
+    @unconfirmed = @beer_club.memberships.where(confirmed: false).all
     if current_user && !@beer_club.user_not_member?(current_user)
       @membership = Membership.find_by user_id: current_user.id
     else
@@ -46,7 +46,7 @@ class BeerClubsController < ApplicationController
     respond_to do |format|
       if @beer_club.save
         @beer_club.users << current_user
-        @beer_club.memberships.find_by_user_id(current_user.id).update_attribute(:confirmed,true)
+        @beer_club.memberships.find_by_user_id(current_user.id).update_attribute(:confirmed, true)
         format.html { redirect_to @beer_club, notice: 'Beer club was successfully created.' }
         format.json { render :show, status: :created, location: @beer_club }
       else

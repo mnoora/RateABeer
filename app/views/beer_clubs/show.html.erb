@@ -12,7 +12,7 @@
 <h2>Members</h2>
 <ul>
  <% @beer_club.users.each do |member| %>
-  <% if @beer_club.memberships.find_by_user_id(member.id).confirmed == true%>
+  <% if @beer_club.memberships.find_by_user_id(member.id).confirmed == true %>
     <%= link_to member do %>
    <li> <%= member.username %> </li>
     <% end %>
@@ -25,7 +25,7 @@
 <% @unconfirmed.each do |m| %>
    <p> <%= User.find_by_id(m.user_id).username %>
     <%= link_to "confirm", toggle_confirmed_membership_path(m.id), method: :post, class: "btn btn-primary" %>
-  </p>
+    </p>
 <%end%>
 
 
@@ -39,6 +39,8 @@
   <% end %>
 <%end%>
 
+<% if current_user && !@beer_club.user_not_member?(current_user) && @beer_club.memberships.find_by_user_id(current_user.id).confirmed == true %>
+
 <% if current_user && !@beer_club.user_not_member?(current_user) %>
   <%= form_for(@membership, method: "delete") do |f| %>
     <%= f.hidden_field :beer_club_id %>
@@ -46,4 +48,6 @@
   <% end %>
 <% end %>
 
+
 <%= edit_and_destroy_buttons(@beer_club) %>
+<% end%>

@@ -26,11 +26,11 @@ class MembershipsController < ApplicationController
   # POST /memberships.json
   def create
     @membership = Membership.new params.require(:membership).permit(:beer_club_id)
-    @membership.update_attribute(:confirmed,false)
+    @membership.update_attribute(:confirmed, false)
     if @membership.save
       if current_user.memberships.find_by(beer_club_id: params[:membership][:beer_club_id]).nil?
         current_user.memberships << @membership
-        flash[:notice] = "#{current_user.username} welcome to the club!"
+        flash[:notice] = "Application sent for approval!"
         redirect_to beer_club_path @membership.beer_club_id
       end
     else
@@ -69,7 +69,7 @@ class MembershipsController < ApplicationController
 
     new_status = membership.confirmed? ? "confirmed" : "waiting"
 
-    redirect_to beerclubs_path, notice: "membership status changed to #{new_status}"
+    redirect_to beer_clubs_path, notice: "membership status changed to #{new_status}"
   end
 
   private

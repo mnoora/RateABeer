@@ -8,4 +8,4 @@ class TestJob
     puts "job ready!"
     TestJob.perform_in(30.seconds)
   end
-  end
+end

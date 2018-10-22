@@ -17,6 +17,7 @@ class RatingsController < ApplicationController
   end
 
   def index
+    # Fragment cache ja eventual consistency
     @ratings = Rating.includes(:user, :beer).all
     @recent_ratings = Rails.cache.fetch('recent_ratings', expires_in: 15.minutes) { Rating.recent }
     @top_beers = Rails.cache.fetch('top_beers', expires_in: 15.minutes) { Beer.top 3 }
